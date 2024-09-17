@@ -24,13 +24,23 @@ class DatabaseService {
           CREATE TABLE items (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
-            barcode TEXT,
-            expireDate TEXT,
+            expireDate TEXT,  // Optional field
             price REAL,
             itemNumber INTEGER,
             image TEXT
           )
         ''');
+        await db.execute('''
+          CREATE TABLE sales (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            itemId INTEGER,
+            quantity INTEGER,
+            totalPrice REAL,
+            date TEXT,
+            FOREIGN KEY (itemId) REFERENCES items(id)
+          )
+        ''');
+
       },
     );
   }
@@ -52,6 +62,22 @@ class DatabaseService {
 
   Future<List<Map<String, dynamic>>> searchItems(String query) async {
     final db = await database;
-    return await db.query('items', where: 'barcode LIKE ?', whereArgs: ['%$query%']);
+    return await db.query(
+      'items',
+      where: 'name LIKE ?',
+      whereArgs: ['%$query%'],
+    );
   }
+
+  Future<double> _getTotalSales() async {
+    final db = await database;
+    final result = await db.rawQuery('SELECT SUM(totalPrice) as totalSales FROM sales');
+    return result.first['totalSales'] as double? ?? 0.0;
+  }
+
+  /*Future<double> _getProfit() async {
+    // Calculate profit based on sales and item costs
+  }*/
+
+
 }

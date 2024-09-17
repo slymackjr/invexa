@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:invexa/screens/home_screen.dart';
 import 'screens/splash_screen.dart';
-import 'screens/dashboard_screen.dart';
 import 'screens/add_item_screen.dart';
 import 'screens/search_item_screen.dart';
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/dashboard': (context) => const DashboardScreen(),
+        '/home': (context) => const HomeScreen(),  // Updated to go to HomeScreen
         '/addItem': (context) => const AddItemScreen(),
         '/searchItem': (context) => const SearchItemScreen(),
         // More routes for other screens like ItemList and DeleteItem can be added here

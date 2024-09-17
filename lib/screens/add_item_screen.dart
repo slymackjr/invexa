@@ -39,8 +39,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Future<void> _saveItem() async {
     Map<String, dynamic> item = {
       'name': _nameController.text,
-      'barcode': _barcode,
-      'expireDate': _expireDateController.text,
+      'expireDate': _expireDateController.text.isNotEmpty ? _expireDateController.text : null,  // Optional
       'price': double.tryParse(_priceController.text) ?? 0.0,
       'itemNumber': int.tryParse(_itemNumberController.text) ?? 0,
       'image': _image?.path ?? '',
@@ -49,6 +48,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     await DatabaseService().insertItem(item);
     Navigator.pop(context);
   }
+
 
   @override
   Widget build(BuildContext context) {
